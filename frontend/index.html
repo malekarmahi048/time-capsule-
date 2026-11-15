@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TimeVault | Secure Your Future</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #07111f;
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+.navbar {
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8%;
+    border-bottom: 1px solid #183149;
+    background: #081522;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: #2dd4bf;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.nav-links a:hover {
+    color: #2dd4bf;
+}
+
+.nav-button {
+    background: #2dd4bf;
+    color: #06121d !important;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.hero {
+    min-height: 590px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    padding: 70px 8%;
+}
+
+.hero-text {
+    max-width: 650px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 8px 15px;
+    background: #102b3c;
+    border: 1px solid #1d5263;
+    color: #5eead4;
+    border-radius: 30px;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: 58px;
+    line-height: 1.1;
+    margin-bottom: 22px;
+}
+
+.hero h1 span {
+    color: #2dd4bf;
+}
+
+.hero p {
+    color: #94a3b8;
+    font-size: 18px;
+    line-height: 1.7;
+    margin-bottom: 32px;
+}
+
+.buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.primary-btn,
+.secondary-btn {
+    padding: 14px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    font-size: 15px;
+}
+
+.primary-btn {
+    background: #2dd4bf;
+    color: #06121d;
+}
+
+.secondary-btn {
+    background: transparent;
+    color: white;
+    border: 1px solid #31506a;
+}
+
+.primary-btn:hover {
+    background: #5eead4;
+}
+
+.secondary-btn:hover {
+    border-color: #2dd4bf;
+}
+
+.hero-card {
+    width: 390px;
+    background: #0b1c2b;
+    border: 1px solid #1c3a50;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.lock-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 16px;
+    background: #103b42;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin-bottom: 25px;
+}
+
+.hero-card h3 {
+    margin-bottom: 12px;
+    font-size: 23px;
+}
+
+.hero-card p {
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.card-line {
+    height: 1px;
+    background: #20394d;
+    margin: 18px 0;
+}
+
+.status {
+    display: flex;
+    justify-content: space-between;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.status span {
+    color: #2dd4bf;
+}
+
+.features {
+    padding: 70px 8%;
+    background: #091624;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.section-title h2 {
+    font-size: 35px;
+    margin-bottom: 12px;
+}
+
+.section-title p {
+    color: #94a3b8;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.feature {
+    background: #0d1e2e;
+    border: 1px solid #1a354a;
+    border-radius: 15px;
+    padding: 28px;
+}
+
+.feature-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.feature h3 {
+    margin-bottom: 12px;
+}
+
+.feature p {
+    color: #94a3b8;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+    border-top: 1px solid #183149;
+}
+
+@media(max-width: 850px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .buttons {
+        justify-content: center;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-card {
+        width: 100%;
+        max-width: 390px;
+    }
+
+    .nav-links {
+        gap: 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <a href="index.html" class="logo">TimeVault</a>
+
+    <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="login.html" id="accountLink">Sign In</a>
+        <a href="register.html" class="nav-button" id="navAction">Get Started</a>
+    </div>
+</nav>
+
+<section class="hero">
+
+    <div class="hero-text">
+
+        <div class="badge">🔐 Secure. Private. Future-ready.</div>
+
+        <h1>
+            Store Today.<br>
+            <span>Unlock Tomorrow.</span>
+        </h1>
+
+        <p>
+            TimeVault lets you create secure digital capsules
+            containing messages, memories and important information
+            that can be unlocked at a future date or condition.
+        </p>
+
+        <div class="buttons">
+            <button class="primary-btn" onclick="startVault()">
+                Create Your Vault
+            </button>
+
+            <a href="#features" class="secondary-btn">
+                Explore Features
+            </a>
+        </div>
+
+    </div>
+
+    <div class="hero-card">
+
+        <div class="lock-icon">🔒</div>
+
+        <h3>Your Future Capsule</h3>
+
+        <p>
+            A secure message waiting for the right moment.
+        </p>
+
+        <div class="card-line"></div>
+
+        <div class="status">
+            <span>Unlock Date</span>
+            <strong>2030</strong>
+        </div>
+
+        <div class="card-line"></div>
+
+        <div class="status">
+            <span>Status</span>
+            <span>● Locked</span>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="features" id="features">
+
+    <div class="section-title">
+        <h2>Everything You Need</h2>
+        <p>Built to keep your future messages secure.</p>
+    </div>
+
+    <div class="feature-grid">
+
+        <div class="feature">
+            <div class="feature-icon">🔐</div>
+            <h3>Secure Capsules</h3>
+            <p>
+                Create private digital capsules containing
+                messages and important information.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">⏳</div>
+            <h3>Time Locked</h3>
+            <p>
+                Choose exactly when your capsule becomes
+                available.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">📨</div>
+            <h3>Future Delivery</h3>
+            <p>
+                Add a recipient and preserve your message
+                for the right moment.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    © 2026 TimeVault. Your future, securely stored.
+</footer>
+
+<script>
+
+function startVault() {
+
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    const users = JSON.parse(localStorage.getItem("timevaultUsers")) || [];
+
+    if (loggedInUser) {
+        window.location.href = "create-capsule.html";
+    }
+    else if (users.length > 0) {
+        window.location.href = "login.html";
+    }
+    else {
+        window.location.href = "register.html";
+    }
+}
+
+const loggedInUser = localStorage.getItem("loggedInUser");
+
+if (loggedInUser) {
+    document.getElementById("accountLink").textContent = "Dashboard";
+    document.getElementById("accountLink").href = "dashboard.html";
+
+    document.getElementById("navAction").textContent = "Create Vault";
+    document.getElementById("navAction").href = "create-capsule.html";
+}
+
+</script>
+
+</body>
+</html>

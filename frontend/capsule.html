@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TimeVault | Capsule</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #07111f;
+    color: white;
+    min-height: 100vh;
+}
+
+.navbar {
+    height: 75px;
+    display: flex;
+    align-items: center;
+    padding: 0 8%;
+    border-bottom: 1px solid #183149;
+    background: #081522;
+}
+
+.logo {
+    color: #2dd4bf;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    padding: 50px 0;
+}
+
+.back {
+    color: #94a3b8;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: #0c1c2b;
+    border: 1px solid #1c3a50;
+    border-radius: 20px;
+    padding: 40px;
+}
+
+.lock {
+    width: 70px;
+    height: 70px;
+    border-radius: 18px;
+    background: #103b42;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin-bottom: 25px;
+}
+
+.card h1 {
+    font-size: 34px;
+    margin-bottom: 12px;
+}
+
+.status {
+    display: inline-block;
+    margin-bottom: 30px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: #3b2b15;
+    color: #fbbf24;
+    font-size: 13px;
+}
+
+.status.unlocked {
+    background: #103b35;
+    color: #5eead4;
+}
+
+.message-box {
+    background: #081522;
+    border: 1px solid #1d374c;
+    border-radius: 12px;
+    padding: 25px;
+    margin: 25px 0;
+}
+
+.message-box p {
+    color: #dbeafe;
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+.details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.detail {
+    background: #091a28;
+    border: 1px solid #1c3549;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.detail small {
+    display: block;
+    color: #64748b;
+    margin-bottom: 7px;
+}
+
+.detail strong {
+    color: #cbd5e1;
+}
+
+@media(max-width: 600px) {
+    .details {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <a href="dashboard.html" class="logo">TimeVault</a>
+</nav>
+
+<div class="container">
+
+    <a href="dashboard.html" class="back">
+        ← Back to Dashboard
+    </a>
+
+    <div class="card" id="capsuleContainer"></div>
+
+</div>
+
+<script>
+
+const loggedInUser =
+    JSON.parse(localStorage.getItem("loggedInUser"));
+
+if (!loggedInUser) {
+    window.location.href = "login.html";
+}
+
+function escapeHTML(text) {
+
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+const params =
+    new URLSearchParams(window.location.search);
+
+const id = params.get("id");
+
+const capsules =
+    JSON.parse(
+        localStorage.getItem("timevaultCapsules")
+    ) || [];
+
+const capsule = capsules.find(function(c) {
+
+    return c.id === id &&
+           c.userEmail === loggedInUser.email;
+
+});
+
+const container =
+    document.getElementById("capsuleContainer");
+
+if (!capsule) {
+
+    container.innerHTML = `
+
+        <h1>Capsule Not Found</h1>
+
+        <p style="color:#94a3b8;margin-top:15px;">
+            This capsule does not exist or does not belong to your account.
+        </p>
+
+    `;
+
+} else {
+
+    const unlockDateTime =
+        new Date(
+            capsule.unlockDate +
+            "T" +
+            capsule.unlockTime
+        );
+
+    const unlocked =
+        new Date() >= unlockDateTime;
+
+    if (unlocked) {
+
+        container.innerHTML = `
+
+            <div class="lock">🔓</div>
+
+            <h1>
+                ${escapeHTML(capsule.title)}
+            </h1>
+
+            <div class="status unlocked">
+                ● Unlocked
+            </div>
+
+            <div class="message-box">
+
+                <p>
+                    ${escapeHTML(capsule.message)}
+                </p>
+
+            </div>
+
+            <div class="details">
+
+                <div class="detail">
+
+                    <small>Unlock Date</small>
+
+                    <strong>
+                        ${escapeHTML(capsule.unlockDate)}
+                    </strong>
+
+                </div>
+
+                <div class="detail">
+
+                    <small>Unlock Time</small>
+
+                    <strong>
+                        ${escapeHTML(capsule.unlockTime)}
+                    </strong>
+
+                </div>
+
+                <div class="detail">
+
+                    <small>Condition</small>
+
+                    <strong>
+                        ${escapeHTML(capsule.condition)}
+                    </strong>
+
+                </div>
+
+                <div class="detail">
+
+                    <small>Recipient</small>
+
+                    <strong>
+                        ${escapeHTML(capsule.recipient)}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        `;
+
+    } else {
+
+        container.innerHTML = `
+
+            <div class="lock">🔒</div>
+
+            <h1>
+                ${escapeHTML(capsule.title)}
+            </h1>
+
+            <div class="status">
+                ● Locked
+            </div>
+
+            <div class="message-box">
+
+                <p>
+                    This capsule is locked until
+                    ${escapeHTML(capsule.unlockDate)}
+                    at
+                    ${escapeHTML(capsule.unlockTime)}.
+                </p>
+
+            </div>
+
+            <div class="details">
+
+                <div class="detail">
+
+                    <small>Unlock Date</small>
+
+                    <strong>
+                        ${escapeHTML(capsule.unlockDate)}
+                    </strong>
+
+                </div>
+
+                <div class="detail">
+
+                    <small>Unlock Time</small>
+
+                    <strong>
+                        ${escapeHTML(capsule.unlockTime)}
+                    </strong>
+
+                </div>
+
+                <div class="detail">
+
+                    <small>Condition</small>
+
+                    <strong>
+                        ${escapeHTML(capsule.condition)}
+                    </strong>
+
+                </div>
+
+                <div class="detail">
+
+                    <small>Recipient</small>
+
+                    <strong>
+                        ${escapeHTML(capsule.recipient)}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TimeVault | Create Capsule</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #07111f;
+    color: white;
+    min-height: 100vh;
+}
+
+.navbar {
+    height: 75px;
+    display: flex;
+    align-items: center;
+    padding: 0 8%;
+    border-bottom: 1px solid #183149;
+    background: #081522;
+}
+
+.logo {
+    color: #2dd4bf;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.container {
+    width: 90%;
+    max-width: 750px;
+    margin: auto;
+    padding: 50px 0;
+}
+
+.back {
+    color: #94a3b8;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 25px;
+}
+
+.back:hover {
+    color: #2dd4bf;
+}
+
+.card {
+    background: #0c1c2b;
+    border: 1px solid #1c3a50;
+    border-radius: 18px;
+    padding: 35px;
+}
+
+.card h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #94a3b8;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+label {
+    display: block;
+    color: #dbeafe;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    border: 1px solid #29465b;
+    background: #081522;
+    color: white;
+    outline: none;
+    font-family: Arial, sans-serif;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #2dd4bf;
+}
+
+textarea {
+    min-height: 160px;
+    resize: vertical;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #2dd4bf;
+    color: #06121d;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background: #5eead4;
+}
+
+.cancel {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    color: #64748b;
+    text-decoration: none;
+}
+
+.message {
+    text-align: center;
+    margin-top: 15px;
+    color: #f87171;
+}
+
+@media(max-width: 600px) {
+    .row {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <a href="dashboard.html" class="logo">TimeVault</a>
+</nav>
+
+<div class="container">
+
+    <a href="dashboard.html" class="back">
+        ← Back to Dashboard
+    </a>
+
+    <div class="card">
+
+        <h1>Create Secure Capsule</h1>
+
+        <p class="subtitle">
+            Store a message and decide when it should become available.
+        </p>
+
+        <form id="capsuleForm">
+
+            <div class="form-group">
+
+                <label>Capsule Title</label>
+
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="Example: Letter to My Future Self"
+                    required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Secure Message</label>
+
+                <textarea
+                    id="message"
+                    placeholder="Write your message..."
+                    required></textarea>
+
+            </div>
+
+            <div class="row">
+
+                <div class="form-group">
+
+                    <label>Unlock Date</label>
+
+                    <input
+                        type="date"
+                        id="unlockDate"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Unlock Time</label>
+
+                    <input
+                        type="time"
+                        id="unlockTime"
+                        required>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Unlock Condition</label>
+
+                <select id="condition">
+
+                    <option value="date">
+                        Specific Date & Time
+                    </option>
+
+                    <option value="project">
+                        Project Completion
+                    </option>
+
+                    <option value="approval">
+                        Approval Required
+                    </option>
+
+                    <option value="manual">
+                        Manual Unlock
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Recipient Email</label>
+
+                <input
+                    type="email"
+                    id="recipient"
+                    placeholder="recipient@example.com"
+                    required>
+
+            </div>
+
+            <button type="submit">
+                🔐 Create Secure Capsule
+            </button>
+
+            <div class="message" id="message"></div>
+
+            <a href="dashboard.html" class="cancel">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+const loggedInUser = JSON.parse(
+    localStorage.getItem("loggedInUser")
+);
+
+if (!loggedInUser) {
+    window.location.href = "login.html";
+}
+
+document.getElementById("capsuleForm").addEventListener(
+    "submit",
+    function(e) {
+
+        e.preventDefault();
+
+        const title =
+            document.getElementById("title").value.trim();
+
+        const message =
+            document.getElementById("message").value.trim();
+
+        const unlockDate =
+            document.getElementById("unlockDate").value;
+
+        const unlockTime =
+            document.getElementById("unlockTime").value;
+
+        const condition =
+            document.getElementById("condition").value;
+
+        const recipient =
+            document.getElementById("recipient").value.trim();
+
+        const error =
+            document.getElementById("message");
+
+        const unlockDateTime =
+            new Date(unlockDate + "T" + unlockTime);
+
+        if (unlockDateTime <= new Date()) {
+
+            error.textContent =
+                "Please select a future date and time.";
+
+            return;
+        }
+
+        let capsules =
+            JSON.parse(
+                localStorage.getItem("timevaultCapsules")
+            ) || [];
+
+        const capsule = {
+
+            id: Date.now().toString(),
+
+            userEmail: loggedInUser.email,
+
+            userName: loggedInUser.name,
+
+            title: title,
+
+            message: message,
+
+            unlockDate: unlockDate,
+
+            unlockTime: unlockTime,
+
+            condition: condition,
+
+            recipient: recipient,
+
+            createdAt: new Date().toISOString()
+
+        };
+
+        capsules.push(capsule);
+
+        localStorage.setItem(
+            "timevaultCapsules",
+            JSON.stringify(capsules)
+        );
+
+        alert("Your secure capsule has been created!");
+
+        window.location.href = "dashboard.html";
+
+    }
+);
+
+</script>
+
+</body>
+</html>
